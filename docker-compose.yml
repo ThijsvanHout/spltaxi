@@ -9,8 +9,17 @@ services:
       - C:/Users/Thijs/TaxiRoy/Backup/reserve.spl.taxi:/var/www/html # mount je lokale Laravel-code
     environment:
       APACHE_DOCUMENT_ROOT: /var/www/html/public
+      MAIL_MAILER: smtp
+      MAIL_HOST: mailhog
+      MAIL_PORT: 1025
+      MAIL_USERNAME: null
+      MAIL_PASSWORD: null
+      MAIL_ENCRYPTION: null
+      MAIL_FROM_ADDRESS: info@spl.taxi
+      MAIL_FROM_NAME: SPL Taxi
     depends_on:
       - db
+      - mailhog
 
   db:
     image: mysql:8.0
@@ -37,5 +46,10 @@ services:
     depends_on:
       - db
 
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
 volumes:
   dbdata:
